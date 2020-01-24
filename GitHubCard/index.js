@@ -3,7 +3,7 @@
            https://api.github.com/users/<your name>
 */
 
-//const arrayUrl = axios.get("https://api.github.com/users/peterevilla");
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -15,11 +15,14 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
-axios.get('https://api.github.com/users/peterevilla').then(response => {
+/*axios.get('https://api.github.com/users/peterevilla').then(response => {
 console.log(response);
 const myCard = createCard(response.data);
   addCard.appendChild(myCard)
-})
+})*/
+
+
+
 
 
 
@@ -38,7 +41,7 @@ const myCard = createCard(response.data);
 */
 
 
-axios.get('https://api.github.com/users/peterevilla/followers').then(response => {
+/*axios.get('https://api.github.com/users/peterevilla/followers').then(response => {
   console.log(response.data);
   for (info of response.data) {
     axios.get('https://api.github.com/users/' + info.login).then(response => {
@@ -49,7 +52,7 @@ axios.get('https://api.github.com/users/peterevilla/followers').then(response =>
 })
 .catch(err => {
   console.log(err);
-})
+})*/
 
 const followersArray = [];
 
@@ -73,6 +76,21 @@ const followersArray = [];
 
 */
 
+let addCard = document.querySelector('.cards')
+
+
+axios
+  .get("https://api.github.com/users/peterevilla")
+  .then(response => {
+    
+      const newCard = createCard(response.data);
+      addCard.appendChild(newCard);
+    
+  })
+  .catch(error => {
+	  console.log('the data was not returned', error);
+  });
+
 function createCard(obj) {
 
 let cards = document.createElement('div');
@@ -87,13 +105,13 @@ let followers = document.createElement('p')
 let following = document.createElement('p')
 let bio = document.createElement('p')
 
-imgUser.scr = obj.avatar_url;
+imgUser.src = obj.avatar_url;
 name.textContent = obj.name;
 userName.textContent = obj.login;
-location.textContent = `Location ${obj.location}`
+location.textContent = `Location: ${obj.location}`
 address.href = obj.html_url;
-followers.textContent = obj.followers_url;
-following.textContent = obj.following_url;
+followers.textContent = `Followers: ${obj.followers}`;
+following.textContent = `Followers: ${obj.following}`;
 bio.textContent = obj.bio;
 
 
@@ -119,9 +137,6 @@ return cards
 
 }
 
-
-
-let addCard = document.querySelector('.card')
 
 
 
