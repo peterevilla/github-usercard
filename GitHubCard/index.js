@@ -15,21 +15,8 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
-/*axios.get('https://api.github.com/users/peterevilla').then(response => {
-console.log(response);
-const myCard = createCard(response.data);
-  addCard.appendChild(myCard)
-})*/
 
 
-
-
-
-
-
-
-
- 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -41,20 +28,9 @@ const myCard = createCard(response.data);
 */
 
 
-/*axios.get('https://api.github.com/users/peterevilla/followers').then(response => {
-  console.log(response.data);
-  for (info of response.data) {
-    axios.get('https://api.github.com/users/' + info.login).then(response => {
-      const followerCard = createCard(response.data);
-      addCard.appendChild(followerCard)
-    })
-  }
-})
-.catch(err => {
-  console.log(err);
-})*/
-
 const followersArray = [];
+
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -78,7 +54,7 @@ const followersArray = [];
 
 let addCard = document.querySelector('.cards')
 
-
+// My profile Card
 axios
   .get("https://api.github.com/users/peterevilla")
   .then(response => {
@@ -91,6 +67,25 @@ axios
 	  console.log('the data was not returned', error);
   });
 
+
+
+  // followers
+
+  axios.get('https://api.github.com/users/peterevilla/followers').then(response => {
+  console.log(response.data);
+ 
+  response.data.forEach(element => {
+    axios.get('https://api.github.com/users/' + element.login).then(response => {
+      const newFollowersCard = createCard(response.data);
+      addCard.appendChild(newFollowersCard)
+    })
+  })})
+.catch(err => {
+  console.log(err);
+});
+
+
+//creating my card usig the DOM
 function createCard(obj) {
 
 let cards = document.createElement('div');
